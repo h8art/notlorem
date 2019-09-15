@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
-
+import Votes from './views/Votes/index.vue'
+import Vote from './views/Vote/index.vue'
+import AddVote from './views/AddVote/index.vue'
+import Login from './views/Login/index.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -9,17 +11,21 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: Home
+      path: '/votes',
+      name: 'votes',
+      component: Votes
+    },{
+      path: '/vote/:id',
+      name: 'vote',
+      component: Vote
+    },{
+      path: '/add',
+      name: 'add vote',
+      component: AddVote
+    },{
+      path: '/login',
+      name: 'Login',
+      component: Login
     },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    }
   ]
 })

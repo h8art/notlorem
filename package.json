@@ -2,14 +2,36 @@
   "name": "vtb_edo",
   "version": "0.1.0",
   "private": true,
+  "vue": {
+    "css": {
+      "loaderOptions": {
+        "less": {
+          "modifyVars": {
+            "primary-color": "#0F2B90",
+            "link-color": "#2A51CB"
+          },
+          "javascriptEnabled": true
+        }
+      }
+    }
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "ant-design-vue": "^1.3.16",
+    "axios": "^0.19.0",
     "core-js": "^2.6.5",
+    "date-fns": "^2.2.1",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "pug": "^2.0.4",
+    "pug-loader": "^2.4.0",
+    "pug-plain-loader": "^1.0.0",
     "vue": "^2.6.10",
+    "vue-axios": "^2.1.4",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
   },
