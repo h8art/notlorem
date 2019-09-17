@@ -22,7 +22,7 @@
             | Поддерживает загруку нескольких файлов одновременно
       .addTopic
         .topic(v-for='topic, ind in vote.topics')
-          a-input(v-model='topic.title' placeholder='Введите названиие пункта')
+          a-input.input(v-model='topic.title' placeholder='Введите названиие пункта')
           a-upload-dragger(:beforeUpload="(file) => beforeUploadTopic(ind, file)", name='files')
             p.ant-upload-drag-icon
               a-icon(type='inbox')
@@ -30,11 +30,13 @@
               | Нажмите или перетащите документы
             p.ant-upload-hint
               | Поддерживает загруку нескольких файлов одновременно
-        a-button(type='primary' @click='addTopic') + Добавить пункт голосования
       a-form-item(:wrapper-col='{ span: 12, offset: 5 }')
-        a-button(type='primary', html-type='submit') Создать
+        a-button-group
+          a-button(type='primary', html-type='submit') Создать
+          a-button(@click='addTopic') + Добавить пункт голосования
 </template>
 <script>
+import obj2fd from 'obj2fd'
 export default {
   beforeCreate () {
     this.form = this.$form.createForm(this)
@@ -96,24 +98,27 @@ export default {
         if (!err) {
           let payload = values
           payload.topics = this.vote.topics
-          var query = `mutation CreateVote($attachments: attach, $deadline: dead, $desc: desc, $title: title, $topics: topics, $userIds: userIds) {
-            createVote(attachments: $attachments, deadline: $dead, description: $desc, title: $title, topics: $topics, participants: $userIds) {
+          var query = `mutation CreateVote($attachments: [AttachmentParams], $deadline: Timestamp, $description: String, $title: String!, $topics: [TopicParams], $participants: [ParticipantParams]) {
+            createVote(attachments: $attachments, deadline: $deadline, description: $description, title: $title, topics: $topics, participants: $participants) {
               id
             }
           }`;
           console.log(payload)
+          console.log(payload.deadline.toISOString())
           this.axios.post('/api', {
             query: query,
             variables: {
-              attach: payload.attachments,
-              dead: payload.deadline.toISOString(),
-              desc: payload.description,
+              attachments: [],
+              deadline: payload.deadline.toISOString().substr(0, payload.deadline.toISOString().length - 1),
+              description: payload.description,
               title: payload.title,
               topics: payload.topics,
-              userIds: payload.participants.map(p => ({id: p}))
+              participants: payload.participants.map(p => ({userId: parseInt(p)}))
             }
-          }).then(() => {
-            // this.$router.push('/votes')
+          }, {
+            headers: { Authorization: "Bearer " + this.$store.state.jwt }
+        }).then((res) => {
+            this.$router.push('/vote/' + res.data.data.createVote.id)
           })
           console.log('Received values of form: ', values);
         }
@@ -149,5 +154,12 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-
+.addTopic
+  width: 450px
+  margin: 0 auto
+  margin-bottom: 25px
+  margin-left: 283px
+  .topic
+    .input
+      margin-bottom: 15px
 </style>

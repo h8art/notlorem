@@ -20,7 +20,7 @@ a-layout#components-layout-demo-custom-trigger
       h3.title Голосование
       a-button.btn(type='primary' @click='openAdd') Добавить голосование
       .empty
-      a-avatar(icon='user')
+      a-button(icon='logout' type='danger' @click='logout')
       //- a-icon.trigger(:type="collapsed ? 'menu-unfold' : 'menu-fold'", @click='()=> collapsed = !collapsed')
     a-layout-content(:style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }")
       router-view
@@ -36,6 +36,7 @@ export default {
     }
   },
   methods: {
+
     openAdd(){
       this.$router.push('/add')
     }

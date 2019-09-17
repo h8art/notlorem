@@ -4,7 +4,7 @@
     h3 Вход
     a-form#components-form-demo-normal-login.login-form(:form='form', @submit='handleSubmit')
       a-form-item
-        a-input(v-decorator="[\ 'userName',\ { rules: [{ required: true, message: 'Please input your username!' }] }\ ]", placeholder='Username')
+        a-input(v-decorator="[\ 'userName',\ { rules: [{ required: true, message: 'Пожалуйста введте email!' }] }\ ]", placeholder='Username')
           a-icon(slot='prefix', type='user', style='color: rgba(0,0,0,.25)')
       a-form-item
         a-input(v-decorator="[\ 'password',\ { rules: [{ required: true, message: 'Please input your Password!' }] }\ ]", type='password', placeholder='Password')
